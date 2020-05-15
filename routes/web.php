@@ -18,6 +18,19 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/listing/{reset?}', function () {
+    $reset = request()->input('reset');
+
+    if ($reset) {
+        DB::table('data_profile')->whereNotNull('in_progress')->update(['in_progress', null]);
+    }
+
+    $listing = DB::table('data_profile')->whereNull('in_progress')->take('500')->get();
+    DB::table('data_profile')->whereIn('license', $listing->pluck('license')->toArray())->update(['in_progress' => now()->toDateTimeString()]);
+
+    return json_encode($listing->pluck('license')->toArray());
+});
+
 Route::post('list', function () {
     DB::table('data_list')->insert([
         [
@@ -43,7 +56,8 @@ Route::post('profile', function () {
             'phone' => $phone->text,
             'speciality' => '',
             'address' => $address->text,
-            'content' => request()->input('list')
+            'content' => request()->input('list'),
+            'in_progress' => null
         ]);
     return ['success'];
 });
