@@ -14,9 +14,12 @@ use PHPHtmlParser\Dom;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+// Route::get('/', 'HomeController@index')->name('home');
+Route::get("/","DataProfileController@index")->name('upload');
+Route::post("upload","DataProfileController@store")->name('upload');
 
 Route::get('/listing/{reset?}', function () {
     $reset = request()->input('reset');
