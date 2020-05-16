@@ -25,11 +25,11 @@ Route::get('/listing/{reset?}', function () {
     $reset = request()->input('reset');
 
     if ($reset) {
-        DB::table('data_profile')->whereNotNull('in_progress')->update(['in_progress', null]);
+        DB::table('data_profiles')->whereNotNull('in_progress')->update(['in_progress', null]);
     }
 
-    $listing = DB::table('data_profile')->whereNull('in_progress')->whereNull('content')->take('500')->get();
-    DB::table('data_profile')->whereIn('license', $listing->pluck('license')->toArray())->update(['in_progress' => now()->toDateTimeString()]);
+    $listing = DB::table('data_profiles')->whereNull('in_progress')->whereNull('content')->take('500')->get();
+    DB::table('data_profiles')->whereIn('license', $listing->pluck('license')->toArray())->update(['in_progress' => now()->toDateTimeString()]);
 
     return json_encode($listing->pluck('license')->toArray());
 });
@@ -53,7 +53,7 @@ Route::post('profile', function () {
     $speciality = '';
     $address = $dom->find('#lbl_add')[0];
 
-    DB::table('data_profile')->where('license', request()->input('license'))->update([
+    DB::table('data_profiles')->where('license', request()->input('license'))->update([
             'license' => request()->input('license'),
             'name' => $name->text,
             'phone' => $phone->text,
