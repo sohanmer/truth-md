@@ -46,7 +46,7 @@ class DataProfilesImport implements ToModel,  WithChunkReading, WithValidation, 
     {
         ini_set('max_execution_time', 300);
         return [
-            'license_number' => Rule::unique('data_profile', 'license'),
+            'license_number' => Rule::unique('data_profiles', 'license'),
             // '0' => Rule::in() // Table name, field in your db
         ];
     }

@@ -18,8 +18,8 @@ class DataProfileController extends Controller
      */
     public function index()
     {
-        $count =  DB::table('data_profile')->get()->count();
-        return view('welcome')->with('dataProfiles', DB::table("data_profile")->paginate(25))
+        $count =  DB::table('data_profiles')->get()->count();
+        return view('welcome')->with('dataProfiles', DB::table("data_profiles")->paginate(25))
                             ->with('count', $count);
     }
 
